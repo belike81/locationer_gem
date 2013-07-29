@@ -14,9 +14,10 @@ Gem::Specification.new do |s|
   s.description = "Locationer is an mountable API that provides functionality of providing results of cities nearby a given city based on the provided range."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
-  s.test_files = Dir["test/**/*"]
+  s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 3.2.14"
   s.add_dependency "grape"
-  s.add_development_dependency "pg"
+  s.add_development_dependency 'rspec-rails'
+  s.add_development_dependency 'factory_girl_rails'
 end
