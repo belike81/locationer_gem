@@ -12,7 +12,8 @@ module Locationer
           optional :range, type: Integer, desc: 'Range', default: 10
         end
         get '/cities_nearby/:city_name(/:range)(/:state)' do
-          reference = Locationer::GeoData.where(city_name: params[:city_name])
+          city_name = params[:city_name].gsub('_',' ')
+          reference = Locationer::GeoData.where(city_name: city_name)
           reference = reference.where(state: params[:state]) if params[:state]
           reference = reference.first
           if reference
