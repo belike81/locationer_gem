@@ -10,6 +10,8 @@
 `rake locationer:install`
 
 ## Access the location data API
-`locationer/location_data/cities_nearby/Atlanta`
+`locationer/location_data/(*US or Mexico)/cities_nearby/(*city_name)`
+
+* - provide your own value for this
 
 
