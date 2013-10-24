@@ -11,9 +11,10 @@ module Locationer
           optional :state, type: String, desc: 'State'
           optional :range, type: Integer, desc: 'Range', default: 10
         end
-        get '/cities_nearby/:city_name(/:range)(/:state)' do
+        get '/cities_nearby/:country/:city_name(/:range)(/:state)' do
+          country = params.fetch(:country) { 'US' }
           city_name = params[:city_name].gsub('_',' ')
-          reference = Locationer::GeoData.where(city_name: city_name)
+          reference = Locationer::GeoData.where("lower(country) = ? AND lower(city_name) = ?", country.downcase, city_name.downcase)
           reference = reference.where(state: params[:state]) if params[:state]
           reference = reference.first
           if reference
