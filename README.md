@@ -14,4 +14,11 @@
 
 * - provide your own value for this
 
+## Use locationer in your own models
+`city_finder = Locationer::CityFinder.new('US')`
+to instantiate finder object with the desired country
+
+`city_finder.nearby_cities(city: 'Los Angeles', state: 'CA')`
+to get back an array of Locationer::GeoData objects
+
 
