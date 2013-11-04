@@ -12,17 +12,20 @@ module Locationer
           optional :range, type: Integer, desc: 'Range', default: 10
         end
         get '/cities_nearby/:country/:city_name(/:range)(/:state)' do
-          country = params.fetch(:country) { 'US' }
-          city_name = params[:city_name].gsub('_',' ')
-          reference = Locationer::GeoData.where("lower(country) = ? AND lower(city_name) = ?", country.downcase, city_name.downcase)
-          reference = reference.where(state: params[:state]) if params[:state]
-          reference = reference.first
-          if reference
-            Locationer::GeoData.find_by_sql("select city_name, state from locationer_geo_data where sqrt(pow((longitude - #{reference.longitude}) * cos(#{reference.latitude} * pi() / 180),2) + pow(latitude - #{reference.latitude},2)) * pi() * 7926.38 / 360 <= #{params[:range]}")
-          else
-            "No nearby cities found"
-          end
+          parsed_params = parse_params(params)
+          Locationer::CityFinder.nearby_cities(parsed_params)
         end
+      end
+
+      private
+
+      def parse_params(parameters)
+        attributes = {}
+        attributes[:country] = params.fetch(:country) { 'US' }
+        attributes[:city] = params[:city_name].gsub('_',' ')
+        attributes[:range] = params[:range]
+        attributes[:state] = params[:state] if params[:state]
+        attributes
       end
     end
   end
