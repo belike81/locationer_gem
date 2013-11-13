@@ -13,7 +13,7 @@ module Locationer
       if city = find_city_by(attributes)
         Locationer::GeoData.find_by_sql("select city_name, state from locationer_geo_data where sqrt(pow((longitude - #{city.longitude}) * cos(#{city.latitude} * pi() / 180),2) + pow(latitude - #{city.latitude},2)) * pi() * 7926.38 / 360 <= #{range}")
       else
-        "No nearby cities found"
+        []
       end
     end
 
